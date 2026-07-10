@@ -98,7 +98,7 @@ foreach ($dir in $repoDirs) {
                     $modDesc = $modDesc -replace '\[url=(.*?)\](.*?)\[/url\]', '[$2]($1)'
                 }
                 
-                $homeContent = "# $modName`n`n$modDesc`n`n## Table of Contents`n"
+                $homeContent = "# $modName`n`n## Table of Contents`n"
                 
                 $mdFiles = Get-ChildItem -Path $tempDir -Filter "*.md" | Where-Object { $_.Name -ne "Home.md" }
                 if ($mdFiles.Count -gt 0) {
@@ -110,6 +110,8 @@ foreach ($dir in $repoDirs) {
                 } else {
                     $homeContent += "*No additional documentation pages have been uploaded yet.*`n"
                 }
+                
+                $homeContent += "`n## About $modName`n`n$modDesc`n"
                 
                 $homePath = Join-Path $tempDir "Home.md"
                 Set-Content -Path $homePath -Value $homeContent -Encoding UTF8
