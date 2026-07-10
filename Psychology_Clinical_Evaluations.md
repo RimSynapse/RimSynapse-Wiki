@@ -1,0 +1,20 @@
+# Clinical Evaluations & Memory Journals
+
+RimSynapse-Psychology completely replaces the rigid, numeric mood system of RimWorld with a dynamic, LLM-driven psychological profile for every colonist.
+
+## The Memory Journal
+As your colonists experience the harsh realities of the Rim—combat, starvation, loss, or triumph—RimSynapse tracks these events.
+Using the Opportunistic Task Engine, the mod periodically evaluates these experiences and generates **Internal Monologues**.
+These memories are saved into the colonist's Journal.
+- **Trauma & Desensitization**: The AI looks at a colonist's lifetime statistics. A first kill will be incredibly traumatic, generating a memory with a `0.0` decay rate that becomes a permanent "Burden" on their psyche. Their 50th kill will barely register.
+
+## Clinical Evaluations
+Every night when a colonist goes to sleep (or at 22:00 if they don't sleep), RimSynapse reviews their daily average mood.
+If flagged for evaluation, a background LLM task reads their traits, their recent memories, and their daily mood to generate a **Clinical Evaluation**.
+- This evaluation determines their current `Break Category` (Homicidal, Suicidal, Issue-Averse) and `Break Intensity`.
+- When a mental break occurs in RimWorld, it will no longer be random. The break will directly reflect their clinical evaluation.
+
+## The Psychology UI
+Players can access a dedicated Psychology window for any colonist.
+- The **Profile** tab displays their traits, their active Psychological Burdens, their overall mood analysis, and their Clinical Diagnosis (including break predictions).
+- The **Memories** tab allows players to read the colonist's journal—a chronological list of AI-generated internal monologues detailing their exact thoughts during major colony events.

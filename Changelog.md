@@ -1,0 +1,43 @@
+# RimSynapse Changelog
+
+## [v1.2.0] - The Social Dynamics Update
+This major update introduces the foundation of RimSynapse-Psychology, drastically changing how pawns interact and remember events.
+
+### Features
+- **Trust & Familiarity System**: Replaced vanilla's rigid opinion system with dynamic Trust (-100 to 100) and Familiarity (0 to 100) values.
+- **Vanilla Opinion Balancing**: `OpinionOf` is now scaled down by 50% natively, with the custom Trust metric contributing the remaining 50% weight.
+- **Ritual Remarks**: Hooked into RimWorld's `MarriageCeremonyUtility` and `RitualOutcomeEffectWorker_Funeral`. Colonists now pull from their LLM relationship memories to deliver Vows and Eulogies during these events.
+- **UI Expansion**: Added the **Social Network** tab to the `Dialog_PawnPsychology` window to visualize the Trust/Familiarity metrics and the LLM relationship memories.
+
+### API & Endpoint Changes
+- **`[DEPRECATED]`** `SynapseClient.RegisterOpportunisticTask(SynapseModHandle mod, string taskId, Action callback, int cooldownTicks)` is now obsolete.
+- **`[ADDED]`** `SynapseClient.RegisterOpportunisticTask(SynapseModHandle mod, string taskId, Action callback, OpportunisticTaskConfig config)` is the new standard API for scheduling background tasks, allowing mods to specify Priority, Weight, and Cooldown via a configuration object.
+
+---
+
+## [v1.1.0] - Core Engine Overhaul
+This update focused on preventing the LLM queue from starving low-priority tasks and ensuring game stability during saves.
+
+### Features
+- **Dynamic Scoring**: Implemented a new dynamic scoring algorithm for the LLM priority queue (`Score = (Priority * 100,000) + CappedAgeInTicks - TokenPenalty`). This ensures older, lower-priority tasks (like background lore generation) eventually bubble up and don't starve.
+- **Queue Save Linking**: The LLM Request Queue is now serialized. If a player exits and saves the game while LLM queries are queued, those queries will be saved and resume processing upon loading the save.
+- **Silent Kill Hook**: Added a hook to silently kill background responses when exiting a game to the main menu, preventing phantom sound notifications from firing.
+
+### API & Endpoint Changes
+- **`[CHANGED]`** Internal queue processing now uses dynamic weight scoring instead of strict FIFO within tiers.
+- **`[ADDED]`** Added `.AllTraits` serialization fix in `SynapsePsychologyOpportunistic` to properly interface with RimWorld 1.4 trait sets.
+
+---
+
+## [v1.0.0] - Initial Release
+The foundational release of RimSynapse, bringing LLM integration directly into RimWorld.
+
+### Features
+- **Asynchronous LLM Dispatch**: Introduced the background thread queue to prevent RimWorld from freezing during HTTP calls to local LM Studio or Ollama instances.
+- **Context Embedding Engine**: Built the initial system to snapshot colony wealth, nutrition, and colonist moods for LLM prompts.
+- **AI Backstories**: Implemented the first version of dynamic Adulthood backstories for colony-born pawns and AI Faction Leader lore generation.
+
+### API Endpoints
+- **`[INITIAL]`** `SynapseCore.Register(modId, displayName, systemPrompt)`
+- **`[INITIAL]`** `SynapseClient.ChatAsync(...)` and formatting wrappers.
+- **`[INITIAL]`** `SynapseCoreContext.GetContextText(...)`
