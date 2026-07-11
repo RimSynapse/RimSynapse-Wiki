@@ -13,8 +13,11 @@ Every night when a colonist goes to sleep (or at 22:00 if they don't sleep), Rim
 If flagged for evaluation, a background LLM task reads their traits, their recent memories, and their daily mood to generate a **Clinical Evaluation**.
 - This evaluation determines their current `Break Category` (Homicidal, Suicidal, Issue-Averse) and `Break Intensity`.
 - When a mental break occurs in RimWorld, it will no longer be random. The break will directly reflect their clinical evaluation.
-- **Dynamic Personality Traits**: If the LLM determines a colonist has undergone profound life changes, they may dynamically gain or lose RimWorld personality traits (e.g., gaining `Bloodlust` after surviving constant raids). A letter will notify the player of this shift.
 
+### Dynamic Trait Injection
+One of the most powerful features of RimSynapse-Psychology is **Dynamic Trait Injection**. Colonists are no longer locked into the traits they spawned with. If the LLM determines a colonist has undergone profound life changes or accumulated enough specific trauma/experiences, they may dynamically gain or lose RimWorld personality traits. 
+
+For example, a peaceful farmer who miraculously survives three consecutive brutal raids might dynamically gain the `Bloodlust` or `Tough` trait. A colonist who constantly experiences the death of friends might gain `Depressive` or lose `Optimist`. Whenever the LLM decides a core aspect of their personality has fundamentally shifted, the trait is injected directly into their RimWorld character sheet, and a letter will notify the player of this psychological evolution along with the AI's reasoning.
 ## Opportunistic Euphoria
 Evaluations aren't just for negative events. If a pawn maintains an extremely high mood (>90%) for a sustained 24 in-game hours, the psychology system flags them for an opportunistic review and generates a positive core memory. 
 
