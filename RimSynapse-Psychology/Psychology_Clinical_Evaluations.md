@@ -26,3 +26,10 @@ Players can access a dedicated Psychology window for any colonist.
 - The **Profile** tab displays their traits, their active Psychological Burdens, their overall mood analysis, and their Clinical Diagnosis (including break predictions). 
 - **Forced Reviews**: You can click the "Force Psych Review" button to immediately queue a clinical evaluation instead of waiting for the pawn to sleep.
 - The **Memories** tab allows players to read the colonist's journal—a chronological list of AI-generated internal monologues detailing their exact thoughts during major colony events.
+
+## Expansion Dependencies
+While the core Clinical Evaluation system is fully functional in the base game, certain psychological events and memory generation require specific DLCs:
+> [!NOTE] 
+> **Biotech Requirement**: Generating trauma memories regarding forced genetic modification, genetic dysphoria, and vat-grown backgrounds requires the **Biotech DLC**.
+> 
+> **Anomaly Requirement**: Generating "Void Taint" tags on memories, and suffering cosmic horror trauma from entity encounters requires the **Anomaly DLC**.

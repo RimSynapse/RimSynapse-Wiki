@@ -16,7 +16,7 @@ All communication with LM Studio/Ollama runs through `SynapseClient`. Requests a
 - **`ChatAsync(SynapseModHandle mod, List<ChatMessage> messages, ChatOptions options, Action<ChatResult> callback)`**
   The standard pipeline for sending OpenAI-formatted messages to the LLM. 
 - **`PromptAsync(SynapseModHandle mod, string systemPrompt, string userMessage, Action<ChatResult> callback, ChatOptions options = null)`**
-  A convenience wrapper for simple queries.
+  A convenience wrapper for simple queries. `ChatOptions` can include `requestName` and `targetName` to populate the Queue Monitor.
 - **`ChatFromJsonAsync`** / **`ChatFromXmlAsync`**
   Convenience wrappers that automatically parse JSON or XML into message structures.
 

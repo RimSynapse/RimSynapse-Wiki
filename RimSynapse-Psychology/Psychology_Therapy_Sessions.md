@@ -17,3 +17,7 @@ Once both pawns meet, a floating UI window opens. This interface gives you full 
 - **Watch (Auto Mode with UI)**: You can leave the window open in Auto Mode to watch the conversation play out in real-time as the game ticks.
 
 At the end of the session, both pawns will generate an opportunistic memory about the conversation, which will affect their Trust and Familiarity metrics.
+
+## Expansion Dependencies
+> [!NOTE]
+> **Ideology Requirement**: During background (auto) resolution, pawns heavily leverage their faith and precepts to counsel or argue with one another. This deep spiritual integration requires the **Ideology DLC**. Without it, pawns will fall back to their standard personality traits.

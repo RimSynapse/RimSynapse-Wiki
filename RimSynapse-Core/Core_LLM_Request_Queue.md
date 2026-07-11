@@ -19,4 +19,6 @@ The queue uses a strict Priority system to ensure critical gameplay elements are
 To prevent queue starvation (where a massive influx of low-priority tasks prevents anything from happening), the queue calculates a Dynamic Score for every task:
 `Score = (Priority * 100,000) + CappedAgeInTicks - TokenPenalty`
 
+**Token Penalty**: To favor efficient tasks during opportunistic scheduling, RimSynapse tracks the Exponential Moving Average (EMA) of token usage per `requestName`. The Opportunistic Task Manager divides the raw opportunistic weight by a Token Penalty `(EMA / 100)`. Thus, heavy generation tasks (like stories) run less frequently than cheap tasks (like profile evaluations) during idle time.
+
 This ensures that a very old, very short background task can eventually out-prioritize a newer, massive request, keeping the AI workflow smooth and responsive.

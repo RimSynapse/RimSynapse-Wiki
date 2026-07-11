@@ -13,3 +13,7 @@ Because Faction Leaders represent entire cultures, their backstories are generat
 3. **Psychological Profile**: Finally, the LLM determines what psychological traits a leader of this specific faction would have (e.g., a brutal warlord vs. a diplomatic trader).
 
 This ensures that when a Faction Leader eventually visits your colony, contacts you on the comms console, or leads a raid, they arrive with a deep, ideologically consistent history and personality.
+
+## Expansion Dependencies
+> [!NOTE]
+> **Ideology Requirement**: The 3-Step Generation Pipeline heavily relies on analyzing the faction's core precepts to determine their history and the leader's personality. This deep cultural generation requires the **Ideology DLC**. Without it, generating a history falls back on basic tech-level and vanilla relationship status.
