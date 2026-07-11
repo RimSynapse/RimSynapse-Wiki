@@ -13,8 +13,13 @@ Every night when a colonist goes to sleep (or at 22:00 if they don't sleep), Rim
 If flagged for evaluation, a background LLM task reads their traits, their recent memories, and their daily mood to generate a **Clinical Evaluation**.
 - This evaluation determines their current `Break Category` (Homicidal, Suicidal, Issue-Averse) and `Break Intensity`.
 - When a mental break occurs in RimWorld, it will no longer be random. The break will directly reflect their clinical evaluation.
+- **Dynamic Personality Traits**: If the LLM determines a colonist has undergone profound life changes, they may dynamically gain or lose RimWorld personality traits (e.g., gaining `Bloodlust` after surviving constant raids). A letter will notify the player of this shift.
+
+## Opportunistic Euphoria
+Evaluations aren't just for negative events. If a pawn maintains an extremely high mood (>90%) for a sustained 24 in-game hours, the psychology system flags them for an opportunistic review and generates a positive core memory. 
 
 ## The Psychology UI
 Players can access a dedicated Psychology window for any colonist.
-- The **Profile** tab displays their traits, their active Psychological Burdens, their overall mood analysis, and their Clinical Diagnosis (including break predictions).
+- The **Profile** tab displays their traits, their active Psychological Burdens, their overall mood analysis, and their Clinical Diagnosis (including break predictions). 
+- **Forced Reviews**: You can click the "Force Psych Review" button to immediately queue a clinical evaluation instead of waiting for the pawn to sleep.
 - The **Memories** tab allows players to read the colonist's journal—a chronological list of AI-generated internal monologues detailing their exact thoughts during major colony events.
