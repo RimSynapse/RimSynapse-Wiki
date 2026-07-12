@@ -48,3 +48,15 @@ Core maintains a rolling, serializable backlog of major colony events and native
   Pushes a new event to the backlog. Core automatically snapshots the colony's wealth, nutrition, and every colonist's mood/health at the exact tick the event occurred.
 - **`GetRecentEvents(int count)`**
   Retrieves the most recent events, perfect for providing the LLM with chronological context of what just happened before a chat or mental break.
+
+## 6. Query Routing & Capabilities (`SynapseModHandle.cs` & `LlmCapabilities.cs`)
+Mods can register specific query types to allow players to route those queries to distinct LLM providers.
+
+- **`SynapseModHandle.RegisterQueryType(string queryId, string displayName, LlmCapabilities requiredCaps)`**
+  Registers a query in the UI. Players can explicitly route it to any provider that possesses the `requiredCaps` (Text, Image, Vision, Audio).
+
+## 7. Image Generation Framework (`SynapseImageClient.cs`)
+Core provides a unified framework for fetching and caching dynamically generated images via Pollinations.ai without stalling Unity.
+
+- **`GenerateAndSaveImageAsync(SynapseModHandle mod, string queryId, string subjectContext, string artStyle, Action<Texture2D, string> callback)`**
+  Requests a descriptive image prompt from the LLM, appends the art style, downloads the image from Pollinations.ai in the background, saves it safely to disk tied to the active save game, and returns a Unity `Texture2D` back to the main thread. Orpahned assets are automatically cleaned up when a save file is deleted.

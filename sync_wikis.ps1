@@ -79,7 +79,7 @@ foreach ($dir in $repoDirs) {
             
             if (Test-Path $aboutXmlPath) {
                 Write-Host "Generating Home.md from About.xml..."
-                [xml]$aboutXml = Get-Content $aboutXmlPath -Raw
+                [xml]$aboutXml = Get-Content $aboutXmlPath -Raw -Encoding UTF8
                 $modName = $aboutXml.ModMetaData.name
                 $modDesc = $aboutXml.ModMetaData.description
                 

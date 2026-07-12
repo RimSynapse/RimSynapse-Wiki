@@ -1,5 +1,23 @@
 # RimSynapse Changelog
 
+## [v0.4.0] - The Image Generation & LLM Balancing Update
+This update transforms Core into a multi-provider hub, allowing simultaneous connections to OpenAI, Gemini, Claude, and Local LLMs, and introduces a robust background Image Generation framework.
+
+### Features
+- **Multi-Provider Hub**: You can now configure Local LM Studio, OpenAI, Google Gemini, Anthropic Claude, and Custom proxies all at the same time in the Settings UI.
+- **Query Routing Window**: Companion mods can register specific tasks (e.g., "Flavor Picture Generation" or "NPC Chat"), allowing you to route them to completely different providers. Unrouted tasks gracefully fall back to Local-Only.
+- **LLM Capabilities System**: Providers can be tagged with specific capabilities (`Text`, `Image`, `Vision`, `Audio`). The Query Routing window smartly filters providers based on what the companion mod requires.
+- **Image Generation Framework**: Core now natively supports generating dynamic images using Pollinations.ai. The LLM writes a descriptive prompt, Core applies your hardcoded art style, downloads the image in the background, and returns a ready-to-use Unity `Texture2D`.
+- **Smart Asset Management**: Downloaded images are automatically saved locally to `RimSynapseAssets/[SaveName]`. Core runs a self-cleaning routine on game startup to instantly delete orphaned images for deleted save games.
+- **Per-Provider Token Tracking**: Token usage is now tracked independently for every API provider and displayed at the top of the Queue Monitor.
+
+### API & Endpoint Changes
+- **`[ADDED]`** `SynapseModHandle.RegisterQueryType(queryId, displayName, requiredCaps)` allows companion mods to expose their tasks to the player's Query Routing window.
+- **`[ADDED]`** `SynapseImageClient.GenerateAndSaveImageAsync(...)` provides a one-shot API for generating, saving, and loading dynamic `Texture2D` image assets based on an LLM prompt.
+- **`[ADDED]`** `ChatOptions.queryId` allows you to specify which registered routing rule should be applied to a specific `ChatAsync` call.
+
+---
+
 ## [v0.3.0] - The World Events and Memory Update
 This massive update introduces deep psychological mechanics to `RimSynapse-Psychology`, the `RimSynapse-WorldNews` module to broadcast global events, and formally deprecates the `RimSynapse-StoryTeller` module, integrating its core functionality directly into the Core engine for better stability and cohesiveness.
 
