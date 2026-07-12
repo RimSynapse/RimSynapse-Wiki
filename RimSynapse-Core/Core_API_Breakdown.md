@@ -41,8 +41,8 @@ Mods can leverage the Core's dynamic context engine to inject colony state into 
 - **`ResolvePrompt(string eventType, string modId)`**
   Reads from `SynapsePromptDef` XMLs to resolve event-specific system prompts.
 
-## 5. Event Tracking (`SynapseCoreWorldComponent.cs`)
-Core maintains a rolling, serializable backlog of major colony events.
+## 5. Event Tracking & Storytelling (`SynapseCoreWorldComponent.cs`)
+Core maintains a rolling, serializable backlog of major colony events and natively intercepts standard storytelling events, raids, and quests for LLM processing (replacing the deprecated `RimSynapse-StoryTeller` module).
 
 - **`EnqueuePastEvent(PastEvent pastEvent)`**
   Pushes a new event to the backlog. Core automatically snapshots the colony's wealth, nutrition, and every colonist's mood/health at the exact tick the event occurred.

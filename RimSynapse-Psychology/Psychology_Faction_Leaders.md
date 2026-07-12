@@ -14,6 +14,9 @@ Because Faction Leaders represent entire cultures, their backstories are generat
 
 This ensures that when a Faction Leader eventually visits your colony, contacts you on the comms console, or leads a raid, they arrive with a deep, ideologically consistent history and personality.
 
+> [!NOTE]
+> **Faction Lore Migration**: The broader "Faction History" generation mentioned above is managed by the **`RimSynapse-Factions`** module. `RimSynapse-Psychology` hooks into that generated lore to construct the leader's specific psychological profile and interpersonal backstories.
+
 ## Expansion Dependencies
 > [!NOTE]
 > **Ideology Requirement**: The 3-Step Generation Pipeline heavily relies on analyzing the faction's core precepts to determine their history and the leader's personality. This deep cultural generation requires the **Ideology DLC**. Without it, generating a history falls back on basic tech-level and vanilla relationship status.
