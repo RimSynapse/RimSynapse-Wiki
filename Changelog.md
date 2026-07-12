@@ -1,28 +1,22 @@
 # RimSynapse Changelog
 
-## [v0.4.0] - The World Events and News Update
-This update introduces the `RimSynapse-WorldNews` module to broadcast global events and formally deprecates the `RimSynapse-StoryTeller` module, integrating its core functionality directly into the Core engine for better stability and cohesiveness.
+## [v0.3.0] - The World Events and Memory Update
+This massive update introduces deep psychological mechanics to `RimSynapse-Psychology`, the `RimSynapse-WorldNews` module to broadcast global events, and formally deprecates the `RimSynapse-StoryTeller` module, integrating its core functionality directly into the Core engine for better stability and cohesiveness.
 
 ### Features
 - **RimSynapse-WorldNews Introduction**: A new module that generates dynamic, asymmetric in-game newspapers based on your colony's events and the broader world state.
 - **World Event Ledger**: Tracks major historical and narrative occurrences as they happen.
 - **Storyteller Integration**: The Aura Algorithm and standard storytelling event interception have been successfully migrated from the deprecated `StoryTeller` module into `RimSynapse-Core`.
 - **Faction Lore Integration**: Faction generation and history mechanics have been migrated from `StoryTeller` into the `RimSynapse-Factions` module.
-
-### API & Endpoint Changes
-- **`[DEPRECATED]`** `RimSynapse-StoryTeller` is officially obsolete. Please unsubscribe from the standalone module.
-
----
-
-## [v0.3.0] - The Mind and Memory Update
-This update introduces deep psychological mechanics to `RimSynapse-Psychology`, allowing colonists' memories to shape their personalities, mental breakdowns, and therapeutic interactions.
-
-### Features
 - **PTSD & Trauma Breaks**: A new mental state `Synapse_TraumaTrigger` causes pawns with severe negative memories to blindly fire their weapon at surrounding doors, walls, or loud noises before cowering in fear. Hitting a living creature snaps them out of it.
 - **Dynamic Personality Traits**: The 24-hour psychological evaluation now tracks profound life events. Pawns can dynamically gain or lose RimWorld `TraitDef`s (such as gaining `Bloodlust` or losing `Kind`) based on LLM analysis of their rolling short-term memory.
 - **Player-Driven Therapy**: Players can now right-click pawns to initiate a `Therapy Session`. This opens a new UI window where you can act as a "Guiding Hand" and manually type out the initiating pawn's dialogue, or let the LLM resolve the conversation in the background based on their Intelligence, Social skill, and Ideology.
 - **Opportunistic Euphoria**: Pawns who maintain an extremely high mood (>90%) for a sustained 24 in-game hours will now automatically generate a positive core memory.
 - **Forced Psychological Reviews**: Added a "Force Psych Review" button to the pawn's Psychology tab, allowing players to demand an immediate LLM clinical evaluation of the pawn's mental state.
+
+### API & Endpoint Changes
+- **`[DEPRECATED]`** `RimSynapse-StoryTeller` is officially obsolete. Please unsubscribe from the standalone module.
+
 
 ---
 
