@@ -78,3 +78,29 @@ Anthropic's Claude 3.5 Sonnet is arguably the best overall model for RimSynapse 
 
 ### Security Reminder
 **Never share your API keys.** If you accidentally paste your API key in a public Discord server or GitHub issue, the provider will automatically detect it, revoke the key, and you will have to generate a new one.
+
+---
+
+## 4. ElevenLabs (TTS Audio)
+
+ElevenLabs provides the gold standard in AI speech synthesis for immersive roleplay. They offer an incredible Free tier (10,000 characters per month) if you create an account, making it perfect for trying out high-quality game voices.
+
+![ElevenLabs Signup](file:///d:/github/RimSynapse-Wiki/elevenlabs_signup.png)
+
+### Steps to Generate an API Key:
+1. Navigate to [ElevenLabs](https://elevenlabs.io/).
+2. Create an account or log in.
+3. If presented with a subscription pricing page during signup, you can simply click **Skip** at the bottom to remain on the free tier.
+![ElevenLabs Skip Subscription](file:///d:/github/RimSynapse-Wiki/elevenlabs_skip.png)
+
+> [!TIP]
+> **Shortcut:** Once logged in, you can bypass the navigation steps below by going directly to the API Keys page: [https://elevenlabs.io/app/api/api-keys](https://elevenlabs.io/app/api/api-keys)
+
+4. **Manual Navigation:** Expand the left menu on the dashboard, and select **ElevenAPI** from the top-left dropdown (which may default to ElevenCreative or ElevenAgents).
+![ElevenLabs API Menu](file:///d:/github/RimSynapse-Wiki/elevenlabs_menu.png)
+5. Once in the ElevenAPI section, scroll to the bottom of the page to the **Quick Links** section and click **Create an API Key**.
+![ElevenLabs Quick Links](file:///d:/github/RimSynapse-Wiki/elevenlabs_quicklinks.png)
+6. A dialog box will appear. Give your key a name, and ensure that both the **Text to Speech** endpoint is toggled to **Access** and the **Voices** endpoint is toggled to **Read**. (This allows the mod to fetch your custom voices). Then click **Create Key**.
+![ElevenLabs API Permissions](file:///d:/github/RimSynapse-Wiki/elevenlabs_apikey_permissions.png)
+7. Click the eye icon next to your new API key to reveal it, then copy it.
+8. Paste this key into the **ElevenLabs Key** field in the RimSynapse Provider Settings window.
