@@ -162,6 +162,8 @@ Core maintains a rolling, serializable backlog of major colony events and native
   A public `IEnumerable<PastEvent>` wrapper providing a read-only stream of the live `_backlogQueue` queue, safe for modders to query history logs dynamically during active play.
 - **`visitorEntryTicks` (Dictionary)**
   A serializable dictionary mapping visitor `ThingID`s to the ticks they arrived on the map.
+- **`GetPopulationDensityDelegate` (Static Field)**
+  A public static `System.Func<int, int>` delegate that companion mods (like `RimSynapse-Factions`) can hook to provide world map tile population calculations dynamically back to Core. Defaults to returning `0` if Factions is not loaded.
 - **`LogGlobalEvent(string category, string description, string factionName = null, string settlementName = null)`**
   Logs a global event to the backlog and returns the newly generated `eventId` string.
 - **`LogWorldEvent(string category, string description, string sourceFactionId, string targetFactionId = null, string parentEventId = null)`**
@@ -179,18 +181,12 @@ Core provides a unified framework for fetching and caching dynamically generated
 
 ---
 
-## 9. Geodesic Population Density & Procedural Dwellings
+## 9. Factions Mod Population Density Integration
 
-Core provides dynamic population density calculation across the world map and handles map initialization generation for settlers/starters:
+The population density mechanics reside in `RimSynapse-Factions` and link to Core dynamically:
 
-### `PopulationDensityUtility.cs`
-- **`GetDensityForTile(int tileId)`**: Calculates population density dynamically at the given tile using a geodesic BFS starting from NPC settlements (tech-level scaled seed population) and player colonies (actual colonist counts).
-- **Terrain Scale degradation factors**:
-  * Default: halves population flow (factor 2).
-  * Roads / Coastal Water: holds 75% flow (factor 1.33).
-  * Large Hills: keeps 25% flow (factor 4).
-  * Mountains / Swamps: keeps 12.5% flow (factor 8). Combined mountains and swamp tiles degrade flow by a factor of 64.
-  * Impassable: 0% flow (water or impassable mountains).
-
-### `DwellingStructureGenerator.cs`
-- **`GenerateDwellingAt(Map map)`**: Procedurally generates a cozy 6x6 cabin, exterior campfire, and dynamically selects either an 8x8 farm crop field or an 8x8 animal pen on player map setup if the tile has non-zero population density dwellings.
+*   **Registration**: During mod construction, `RimSynapseFactionsMod` registers its calculator `PopulationDensityUtility.GetPopulationAtTile` with Core's `SynapseCoreWorldComponent.GetPopulationDensityDelegate`.
+*   **Storyteller Impact**: Core storyteller algorithms query this delegate dynamically to scale raid frequencies (suppressed in high density) and wanderer join frequencies (boosted in high density) assembly-safely.
+*   **Geodesic BFS Algorithm**: Calculates population density using step-wise biome and road link multipliers.
+*   **Homestead Generator**: Procedurally spawns pre-built cabins, crops, or pasture fences if a player starts or settles on a tile containing dwellings.
+*   **Tile Inspector**: Draws `"Pawn dwellings: <pop>"` in the world selection panel.
