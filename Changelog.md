@@ -1,5 +1,26 @@
 # RimSynapse Changelog
 
+## [v0.6.0] - The Population Density, Gossip & Legendary Tribute Update
+This update introduces dynamic population density propagation on the world map, procedurally generated homesteads, density-based storyteller weight adjustments, a modular visitor gossip rumor system, and robust save-state backlog fixes.
+
+### Features
+- **Population Density BFS Model**: Implemented dynamic tile-based population propagation using geodesic BFS. Population propagates outward from NPC settlements and player colonies, halving dynamically with step-wise terrain multipliers (e.g. large hills, mountains, swamps, road linkages, and coastal/water proximity). Displays as "Pawn dwellings: <pop>" on the world inspect pane.
+- **Cozy Procedural Homesteads**: Settling or starting on a tile containing non-zero population density triggers the procedural generation of a cozy pre-built wood cabin (4x4 walkable interior, door, wood floor, roof, campfire), and dynamically spawns EITHER an 8x8 growing field sowing potatoes OR an 8x8 fenced pasture pen equipped with a gate and pen marker.
+- **Storyteller Density Pacing**: Storyteller weights dynamically scale based on the local population density:
+  * High Density (Civilized lands): Suppresses big/small raid threats (multiplied by $\frac{1}{1 + 0.005 \times \text{pop}}$) and increases positive wanderer joins/travelers (multiplied by $0.5 + 0.005 \times \text{pop}$).
+  * Low Density (Wild frontier): Acts as a lawless frontier, increasing raid frequencies and making wanderer joins extremely scarce.
+- **Modular Gossip & Rumor System**: Friendly and neutral visitors track the most significant events (such as marriages, deaths, bionic surgeries, or MedPod regrowths) witnessed during their stay. Significant events (score $\ge 60$ and $\ge$ average) are logged as core `VisitorRumorSpreading` events in the backlog.
+- **Decoupled Newspaper Publishing**: `RimSynapse-WorldNews` sub-hooks `EnqueuePastEvent` to intercept Core's visitor rumors natively, formatting and publishing them as newspaper gossip without requiring circular code dependencies or reflection.
+- **Save State Backlog Fix**: All surgery installations, limb restorations (Mech Serums and MedPod regrowth), and legendary art creation events have been converted to use the proper `EnqueuePastEvent` pipeline, resolving a bug where these events were erased upon saving the game.
+- **Legendary Inspect Tab & Pawn Vector Rendering**: Expanded the `ITab_Art` pane to display a side-by-side view with generated vector pawn-style art, and added prompt constraints to prevent meta-recursion loops (pawns carving sculptures of themselves carving sculptures).
+
+### API & Endpoint Changes
+- **`[ADDED]`** `SynapseCoreWorldComponent.AllEvents` property returning the live runtime `_backlogQueue` queue.
+- **`[ADDED]`** `visitorEntryTicks` dictionary in `SynapseCoreWorldComponent` for tracking humanlike visitor presence.
+- **`[ADDED]`** `VisitorRumorSpreading` event category for cross-mod narrative scripting.
+
+---
+
 ## [v0.5.0] - The Local TTS & Voicebox Integration Update
 This update introduces local Text-to-Speech (TTS) integration via Voicebox, enabling high-fidelity speech synthesis without third-party cloud dependencies.
 

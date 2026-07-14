@@ -156,6 +156,12 @@ Core maintains a rolling, serializable backlog of major colony events and native
   Pushes a new event to the backlog. Core automatically snapshots the colony's wealth, nutrition, and every colonist's mood/health at the exact tick the event occurred.
 - **`GetRecentEvents(int count)`**
   Retrieves the most recent events, perfect for providing the LLM with chronological context of what just happened before a chat or mental break.
+- **`GetMostSignificantEvents(int count)`**
+  Retrieves the most significant events of the colony's lifetime, filtered to exclude art description recursion loops (events of category `"LegendaryArtCreated"` or containing `"legendary"`).
+- **`AllEvents` (Property)**
+  A public `IEnumerable<PastEvent>` wrapper providing a read-only stream of the live `_backlogQueue` queue, safe for modders to query history logs dynamically during active play.
+- **`visitorEntryTicks` (Dictionary)**
+  A serializable dictionary mapping visitor `ThingID`s to the ticks they arrived on the map.
 - **`LogGlobalEvent(string category, string description, string factionName = null, string settlementName = null)`**
   Logs a global event to the backlog and returns the newly generated `eventId` string.
 - **`LogWorldEvent(string category, string description, string sourceFactionId, string targetFactionId = null, string parentEventId = null)`**
@@ -170,3 +176,21 @@ Core provides a unified framework for fetching and caching dynamically generated
 
 - **`GenerateAndSaveImageAsync(SynapseModHandle mod, string queryId, string subjectContext, string artStyle, Action<Texture2D, string> callback)`**
   Requests a descriptive image prompt from the LLM, appends the art style, downloads the image from Pollinations.ai in the background, saves it safely to disk tied to the active save game, and returns a Unity `Texture2D` back to the main thread. Orphaned assets are automatically cleaned up when a save file is deleted.
+
+---
+
+## 9. Geodesic Population Density & Procedural Dwellings
+
+Core provides dynamic population density calculation across the world map and handles map initialization generation for settlers/starters:
+
+### `PopulationDensityUtility.cs`
+- **`GetDensityForTile(int tileId)`**: Calculates population density dynamically at the given tile using a geodesic BFS starting from NPC settlements (tech-level scaled seed population) and player colonies (actual colonist counts).
+- **Terrain Scale degradation factors**:
+  * Default: halves population flow (factor 2).
+  * Roads / Coastal Water: holds 75% flow (factor 1.33).
+  * Large Hills: keeps 25% flow (factor 4).
+  * Mountains / Swamps: keeps 12.5% flow (factor 8). Combined mountains and swamp tiles degrade flow by a factor of 64.
+  * Impassable: 0% flow (water or impassable mountains).
+
+### `DwellingStructureGenerator.cs`
+- **`GenerateDwellingAt(Map map)`**: Procedurally generates a cozy 6x6 cabin, exterior campfire, and dynamically selects either an 8x8 farm crop field or an 8x8 animal pen on player map setup if the tile has non-zero population density dwellings.
