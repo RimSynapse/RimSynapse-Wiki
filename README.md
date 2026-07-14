@@ -11,6 +11,11 @@ Welcome to the official documentation and changelog repository for the **RimSyna
 - **[RimSynapse - Chat](RimSynapse-Chat)**: A UI framework that allows for direct interaction, questioning, and chatting with colonists and faction leaders.
 - **[RimSynapse - NVIDIA Tool](RimSynapse-NVIDIA-Tool)**: A hardware integration tool that allows RimSynapse to monitor local VRAM usage and GPU load for local model generation.
 
+## Setup Guides
+
+- **[Cloud LLM Setup Guide](RimSynapse-Core/cloud-llms.md)**: Steps to acquire API keys and configure OpenAI, Google Gemini, Anthropic Claude, and ElevenLabs.
+- **[Local TTS Setup Guide](RimSynapse-Core/local-tts-voicebox.md)**: Configuration and installation details for Voicebox local Text-to-Speech integration.
+
 ## Deprecated Modules
 
 - **[RimSynapse - StoryTeller](RimSynapse-StoryTeller)**: *[DEPRECATED]* The initial storytelling logic (Aura Algorithm, event interception, and faction lore generation) has been migrated directly into `RimSynapse - Core` and `RimSynapse - Factions`.

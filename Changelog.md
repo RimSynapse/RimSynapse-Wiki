@@ -1,5 +1,22 @@
 # RimSynapse Changelog
 
+## [v0.5.0] - The Local TTS & Voicebox Integration Update
+This update introduces local Text-to-Speech (TTS) integration via Voicebox, enabling high-fidelity speech synthesis without third-party cloud dependencies.
+
+### Features
+- **Voicebox TTS Engine Integration**: Added native support for Voicebox, a multi-engine local speech synthesis server supporting Qwen3-TTS, Qwen CustomVoice, LuxTTS, Chatterbox, TADA, and Kokoro.
+- **Dynamic Profile Resolution**: Core now dynamically fetches and lists Voicebox profiles (`GET /profiles`) in the Test Bench and routing settings. You can specify a profile either by its name (case-insensitive) or UUID, and the system resolves it on the fly.
+- **WAV-to-PCM Audio Processing**: Native parser in VoiceboxProvider extracts raw PCM audio data directly from WAV file responses by parsing the `RIFF WAVE` subchunks, allowing direct playback in RimWorld's audio engine.
+- **Audio Routing Expansion**: Both ElevenLabs and Voicebox are now fully exposed in the Query Routing dropdowns when selecting providers for Audio/TTS tasks.
+- **Test Bench Audio Tab Upgrades**: The Audio Test Bench now supports selecting Voicebox as a Target Provider, choosing available local profiles from a dynamic dropdown menu, and playing the synthesized audio directly in-game.
+
+### API & Endpoint Changes
+- **`[ADDED]`** `ApiProvider.Voicebox` (value `8`) representing the Voicebox provider type.
+- **`[ADDED]`** `RoutingId.Voicebox` (value `"Specific_Voicebox"`) for routing storyteller or custom dialog requests directly to Voicebox.
+- **`[ADDED]`** Support for custom voice parameters mapping engine name and size from model identifiers (e.g. `qwen:1.7B` translates as engine `"qwen"`, size `"1.7B"`).
+
+---
+
 ## [v0.4.0] - The Image Generation & LLM Balancing Update
 This update transforms Core into a multi-provider hub, allowing simultaneous connections to OpenAI, Gemini, Claude, and Local LLMs, and introduces a robust background Image Generation framework.
 
