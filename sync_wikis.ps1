@@ -41,7 +41,8 @@ if (-not $token) {
 }
 
 $baseDir = Get-Location
-$repoDirs = Get-ChildItem -Directory -Filter "RimSynapse-*"
+$parentDir = Split-Path $baseDir -Parent
+$repoDirs = Get-ChildItem -Path $parentDir -Directory | Where-Object { $_.Name -like "RimSynapse-*" -or $_.Name -eq "AuraAlgorithm" }
 
 foreach ($dir in $repoDirs) {
     $repoName = $dir.Name
@@ -71,10 +72,13 @@ foreach ($dir in $repoDirs) {
         
         if (Test-Path $tempDir) {
             Write-Host "Copying files to wiki repo..."
-            Copy-Item -Path "$($dir.FullName)\*" -Destination $tempDir -Recurse -Force -ErrorAction SilentlyContinue
+            $learningPath = Join-Path $dir.FullName "Learning"
+            if (Test-Path $learningPath) {
+                Copy-Item -Path "$learningPath\*" -Destination $tempDir -Recurse -Force -ErrorAction SilentlyContinue
+            }
             
             # --- Homepage Generation ---
-            $siblingRepoPath = Join-Path (Split-Path $baseDir -Parent) $repoName
+            $siblingRepoPath = $dir.FullName
             $aboutXmlPath = Join-Path $siblingRepoPath "About\About.xml"
             
             if (Test-Path $aboutXmlPath) {
