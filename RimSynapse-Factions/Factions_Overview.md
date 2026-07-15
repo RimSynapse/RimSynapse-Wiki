@@ -12,3 +12,6 @@ When the world is generated, the LLM intercepts the vanilla faction generation t
 
 ## Dynamic Diplomacy
 Faction relationships are no longer static numbers. As your colony grows in perceived wealth and strength, factions will react dynamically based on their generated lore. A warlike tribal faction might respect your strength, while a civilized outlander union might view your sudden wealth as a threat.
+
+## Map Overlays (Map Mode Framework)
+We integrate with the Map Mode Framework to provide custom map modes on the world screen (such as population density propagation and zones of control/faction territories). For technical implementation details, see [Map Mode Overlays](Map_Modes.md).
