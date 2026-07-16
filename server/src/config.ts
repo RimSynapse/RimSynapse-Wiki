@@ -21,7 +21,7 @@ export function loadConfig(): MCPConfig {
 }
 
 export function getGitHubToken(): string {
-    const tokenFilePath = path.join(__dirname, "..", "..", "..", "github_token.txt");
+    const tokenFilePath = path.join(__dirname, "..", "..", "github_token.txt");
     let githubToken: string | undefined;
 
     if (fs.existsSync(tokenFilePath)) {

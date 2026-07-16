@@ -50,7 +50,7 @@ function loadConfig() {
     };
 }
 function getGitHubToken() {
-    const tokenFilePath = path.join(__dirname, "..", "..", "..", "github_token.txt");
+    const tokenFilePath = path.join(__dirname, "..", "..", "github_token.txt");
     let githubToken;
     if (fs.existsSync(tokenFilePath)) {
         const fileContent = fs.readFileSync(tokenFilePath, "utf-8");
