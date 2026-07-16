@@ -21,14 +21,7 @@ async function run() {
     const org = config.organization;
 
     const modules = [
-        { name: "RimSynapse-Chat", dir: "Conversations" },
-        { name: "RimSynapse-Core", dir: "Core" },
-        { name: "RimSynapse-Factions", dir: "Factions" },
-        { name: "Local-AI-Wrapper", dir: "Local-AI-Wrapper" },
-        { name: "RimSynapse-NVIDIA-Tool", dir: "NVIDIA-Tool" },
-        { name: "RimSynapse-Psychology", dir: "Psychology" },
-        { name: "RimSynapse-WorldNews", dir: "WorldNews" },
-        { name: "AuraAlgorithm", dir: "AuraAlgorithm" }
+        { name: "RimSynapse-Psychology", dir: "Psychology" }
     ];
 
     const workspaceRoot = path.join(__dirname, "..", "..", "..");
@@ -58,15 +51,15 @@ async function run() {
             const backlogIndex = content.indexOf("Unimplemented Features");
             if (backlogIndex !== -1) {
                 const backlogContent = content.substring(backlogIndex);
-                const features = backlogContent.split("### ");
+                const features = backlogContent.split(/\n### |\n#### /);
                 
-                // Skip the first split which is the header text before the first ###
+                // Skip the first split which is the header text
                 for (let i = 1; i < features.length; i++) {
                     const featureLines = features[i].trim().split("\n");
                     const title = featureLines[0].trim();
                     const body = featureLines.slice(1).join("\n").trim();
                     
-                    if (title) {
+                    if (title && !title.startsWith("Tier")) {
                         console.log(`Creating Future Feature Issue: ${title}...`);
                         const issueTitle = `[Roadmap Idea] ${title}`;
                         const nodeId = await createIssue(octokit, org, mod.name, issueTitle, body);
