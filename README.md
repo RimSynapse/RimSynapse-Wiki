@@ -15,11 +15,12 @@ Welcome to the official documentation and changelog repository for the **RimSyna
 
 - **[Cloud LLM Setup Guide](RimSynapse-Core/cloud-llms.md)**: Steps to acquire API keys and configure OpenAI, Google Gemini, Anthropic Claude, and ElevenLabs.
 - **[Local TTS Setup Guide](RimSynapse-Core/local-tts-voicebox.md)**: Configuration and installation details for Voicebox local Text-to-Speech integration.
-- **[Gemma 2 2B Fine-Tuning Guide](RimSynapse-StoryTeller/Gemma-FineTuning-Guide.md)**: Detailed tutorial on training Gemma 2 2B for local storytelling, including debug tool dataset curation.
+- **[Gemma 4 Fine-Tuning Guide](RimSynapse-StoryTeller/Gemma-FineTuning-Guide.md)**: Detailed tutorial on training Gemma 4 for local storytelling, including debug tool dataset curation.
+- **[RimSynapse - LLM Trainer](file:///d:/github/LLM-Trainer)**: Optional developer utility mod for local dataset curation.
 
 ## Deprecated Modules
 
-- **[RimSynapse - StoryTeller](RimSynapse-StoryTeller)**: *[DEPRECATED]* The initial storytelling logic has been migrated into `RimSynapse - Core` and `RimSynapse - Factions`. See the **[Gemma 2 2B Fine-Tuning Guide](RimSynapse-StoryTeller/Gemma-FineTuning-Guide.md)** for local model training.
+- **[RimSynapse - StoryTeller](RimSynapse-StoryTeller)**: *[DEPRECATED]* The initial storytelling logic has been migrated into `RimSynapse - Core` and `RimSynapse - Factions`. See the **[Gemma 4 Fine-Tuning Guide](RimSynapse-StoryTeller/Gemma-FineTuning-Guide.md)** for local model training.
 
 ---
 *For updates, please review the [Changelog](Changelog.md).*
