@@ -47,6 +47,9 @@ const codebase_1 = require("./tools/codebase");
 const testing_1 = require("./tools/testing");
 const sync_1 = require("./tools/sync");
 const wiki_1 = require("./tools/wiki");
+const factions_1 = require("./tools/factions");
+const psychology_1 = require("./tools/psychology");
+const pcControl_1 = require("./tools/pcControl");
 const config_1 = require("./config");
 // 1. Setup Config & Auth
 const config = (0, config_1.loadConfig)();
@@ -67,7 +70,10 @@ const ALL_TOOLS = [
     ...codebase_1.codebaseTools,
     ...testing_1.testingTools,
     ...sync_1.syncTools,
-    ...wiki_1.wikiTools
+    ...wiki_1.wikiTools,
+    ...factions_1.factionsTools,
+    ...psychology_1.psychologyTools,
+    ...pcControl_1.pcControlTools
 ];
 // 3. Register Tools
 server.setRequestHandler(types_js_1.ListToolsRequestSchema, async () => {
@@ -92,6 +98,15 @@ server.setRequestHandler(types_js_1.CallToolRequestSchema, async (request) => {
     }
     if (wiki_1.wikiTools.some(t => t.name === name)) {
         return await (0, wiki_1.handleWikiTool)(name, args);
+    }
+    if (factions_1.factionsTools.some(t => t.name === name)) {
+        return await (0, factions_1.handleFactionsTool)(name, args);
+    }
+    if (psychology_1.psychologyTools.some(t => t.name === name)) {
+        return await (0, psychology_1.handlePsychologyTool)(name, args);
+    }
+    if (pcControl_1.pcControlTools.some(t => t.name === name)) {
+        return await (0, pcControl_1.handlePcControlTool)(name, args);
     }
     throw new Error(`Unknown tool: ${name}`);
 });

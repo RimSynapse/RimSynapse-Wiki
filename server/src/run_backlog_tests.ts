@@ -21,28 +21,72 @@ async function runTests() {
     const testCases = [
         {
             name: "MOD-01: Base Mod Independence (No DLCs)",
-            dlcToEnable: [],
-            dlcToDisable: ["royalty", "ideology", "biotech", "anomaly", "odyssey"]
+            activeMods: [
+                "brrainz.harmony",
+                "ludeon.rimworld",
+                "nozome.mapmodeframework",
+                "rimsynapse.core",
+                "rimsynapse.nvidiatool",
+                "rimsynapse.psychology",
+                "rimsynapse.conversations",
+                "rimsynapse.factions"
+            ]
         },
         {
             name: "MOD-02: Royalty DLC Modularity",
-            dlcToEnable: ["royalty"],
-            dlcToDisable: ["ideology", "biotech", "anomaly", "odyssey"]
+            activeMods: [
+                "brrainz.harmony",
+                "ludeon.rimworld",
+                "ludeon.rimworld.royalty",
+                "nozome.mapmodeframework",
+                "rimsynapse.core",
+                "rimsynapse.nvidiatool",
+                "rimsynapse.psychology",
+                "rimsynapse.conversations",
+                "rimsynapse.factions"
+            ]
         },
         {
             name: "MOD-03: Ideology DLC Modularity",
-            dlcToEnable: ["ideology"],
-            dlcToDisable: ["royalty", "biotech", "anomaly", "odyssey"]
+            activeMods: [
+                "brrainz.harmony",
+                "ludeon.rimworld",
+                "ludeon.rimworld.ideology",
+                "nozome.mapmodeframework",
+                "rimsynapse.core",
+                "rimsynapse.nvidiatool",
+                "rimsynapse.psychology",
+                "rimsynapse.conversations",
+                "rimsynapse.factions"
+            ]
         },
         {
             name: "MOD-04: Biotech DLC Modularity",
-            dlcToEnable: ["biotech"],
-            dlcToDisable: ["royalty", "ideology", "anomaly", "odyssey"]
+            activeMods: [
+                "brrainz.harmony",
+                "ludeon.rimworld",
+                "ludeon.rimworld.biotech",
+                "nozome.mapmodeframework",
+                "rimsynapse.core",
+                "rimsynapse.nvidiatool",
+                "rimsynapse.psychology",
+                "rimsynapse.conversations",
+                "rimsynapse.factions"
+            ]
         },
         {
             name: "MOD-05: Anomaly DLC Modularity",
-            dlcToEnable: ["anomaly"],
-            dlcToDisable: ["royalty", "ideology", "biotech", "odyssey"]
+            activeMods: [
+                "brrainz.harmony",
+                "ludeon.rimworld",
+                "ludeon.rimworld.anomaly",
+                "nozome.mapmodeframework",
+                "rimsynapse.core",
+                "rimsynapse.nvidiatool",
+                "rimsynapse.psychology",
+                "rimsynapse.conversations",
+                "rimsynapse.factions"
+            ]
         }
     ];
 
@@ -52,8 +96,7 @@ async function runTests() {
         // 1. Configure mod list
         try {
             await handleTestingTool("configure_active_mods", {
-                enableDlc: tc.dlcToEnable,
-                disableDlc: tc.dlcToDisable
+                activeMods: tc.activeMods
             }, null as any, "RimSynapse");
             logResult("-> Mod list configured successfully.");
         } catch (err: any) {
@@ -69,20 +112,27 @@ async function runTests() {
         } catch (e) {}
 
         // 3. Restart game
+        const testCaseStartTime = Date.now();
         try {
             await handleTestingTool("restart_game", { quicktest: true }, null as any, "RimSynapse");
-            logResult("-> Relaunched game. Waiting 15 seconds for startup logs...");
+            logResult("-> Relaunched game. Waiting 20 seconds for startup logs...");
         } catch (err: any) {
             logResult(`-> [ERROR] Failed to relaunch game: ${err.message}`);
             continue;
         }
 
         // 4. Wait for game startup
-        await new Promise(resolve => setTimeout(resolve, 15000));
+        await new Promise(resolve => setTimeout(resolve, 20000));
 
         // 5. Inspect Player.log
         const logPath = "C:\\Users\\sealt\\AppData\\LocalLow\\Ludeon Studios\\RimWorld by Ludeon Studios\\Player.log";
         if (fs.existsSync(logPath)) {
+            const stats = fs.statSync(logPath);
+            if (stats.mtimeMs < testCaseStartTime - 3000) {
+                logResult("-> [FAILED] Game did not start or failed to write to Player.log (log is stale).");
+                continue;
+            }
+
             const logContent = fs.readFileSync(logPath, "utf8");
             
             // Check for errors

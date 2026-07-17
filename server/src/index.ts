@@ -15,6 +15,9 @@ import { codebaseTools, handleCodebaseTool } from "./tools/codebase";
 import { testingTools, handleTestingTool } from "./tools/testing";
 import { syncTools, handleSyncTool } from "./tools/sync";
 import { wikiTools, handleWikiTool } from "./tools/wiki";
+import { factionsTools, handleFactionsTool } from "./tools/factions";
+import { psychologyTools, handlePsychologyTool } from "./tools/psychology";
+import { pcControlTools, handlePcControlTool } from "./tools/pcControl";
 import { loadConfig, getGitHubToken } from "./config";
 
 // 1. Setup Config & Auth
@@ -38,7 +41,10 @@ const ALL_TOOLS = [
     ...codebaseTools,
     ...testingTools,
     ...syncTools,
-    ...wikiTools
+    ...wikiTools,
+    ...factionsTools,
+    ...psychologyTools,
+    ...pcControlTools
 ];
 
 // 3. Register Tools
@@ -71,6 +77,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     
     if (wikiTools.some(t => t.name === name)) {
         return await handleWikiTool(name, args);
+    }
+
+    if (factionsTools.some(t => t.name === name)) {
+        return await handleFactionsTool(name, args);
+    }
+
+    if (psychologyTools.some(t => t.name === name)) {
+        return await handlePsychologyTool(name, args);
+    }
+
+    if (pcControlTools.some(t => t.name === name)) {
+        return await handlePcControlTool(name, args);
     }
     
     throw new Error(`Unknown tool: ${name}`);

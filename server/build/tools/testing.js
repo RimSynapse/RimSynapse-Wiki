@@ -213,17 +213,18 @@ async function handleTestingTool(name, args, octokit, org, token, defaultProject
         if (!fs.existsSync(rimworldExe)) {
             throw new Error(`RimWorld executable not found at: ${rimworldExe}`);
         }
-        // 3. Spawn the game process detached
-        const gameArgs = quicktest ? ["-quicktest"] : [];
-        const child = (0, child_process_1.spawn)(rimworldExe, gameArgs, {
-            detached: true,
-            stdio: 'ignore'
-        });
-        child.unref();
+        // 3. Spawn the game process via cmd.exe start
+        const argsStr = quicktest ? "-quicktest" : "";
+        try {
+            (0, child_process_1.execSync)(`cmd.exe /c start "" "${rimworldExe}" ${argsStr}`, { stdio: 'ignore' });
+        }
+        catch (err) {
+            throw new Error(`Failed to launch RimWorld: ${err.message}`);
+        }
         return {
             content: [{
                     type: "text",
-                    text: `${killMsg} Relaunched RimWorld at ${rimworldExe} with args: ${JSON.stringify(gameArgs)}.`
+                    text: `${killMsg} Relaunched RimWorld at ${rimworldExe} with args: "${argsStr}".`
                 }]
         };
     }
@@ -275,6 +276,32 @@ async function handleTestingTool(name, args, octokit, org, token, defaultProject
         }
         // Standardize list (keep duplicates out)
         activeList = Array.from(new Set(activeList.map(m => m.trim())));
+        // Sort active mods list to respect official RimWorld load order:
+        // 1. Harmony
+        // 2. Core (ludeon.rimworld)
+        // 3. Official DLCs (ludeon.rimworld.royalty, ludeon.rimworld.ideology, etc.)
+        // 4. Other mods (e.g. rimsynapse.core, rimsynapse.nvidiatool)
+        const officialOrder = [
+            "brrainz.harmony",
+            "ludeon.rimworld",
+            "ludeon.rimworld.royalty",
+            "ludeon.rimworld.ideology",
+            "ludeon.rimworld.biotech",
+            "ludeon.rimworld.anomaly",
+            "ludeon.rimworld.odyssey"
+        ];
+        activeList.sort((a, b) => {
+            const idxA = officialOrder.indexOf(a.toLowerCase());
+            const idxB = officialOrder.indexOf(b.toLowerCase());
+            if (idxA !== -1 && idxB !== -1) {
+                return idxA - idxB;
+            }
+            if (idxA !== -1)
+                return -1;
+            if (idxB !== -1)
+                return 1;
+            return a.localeCompare(b);
+        });
         // Format activeMods XML block
         const newActiveXml = `<activeMods>\n` + activeList.map(m => `        <li>${m}</li>`).join("\n") + `\n    </activeMods>`;
         if (content.includes("<activeMods>")) {
