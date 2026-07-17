@@ -37,6 +37,8 @@ exports.testingTools = void 0;
 exports.handleTestingTool = handleTestingTool;
 const fs = __importStar(require("fs"));
 const graphql_1 = require("@octokit/graphql");
+const path = __importStar(require("path"));
+const child_process_1 = require("child_process");
 exports.testingTools = [
     {
         name: "create_testing_plan_issues",
@@ -49,6 +51,40 @@ exports.testingTools = [
                 planFilePath: { type: "string", description: "Absolute local path to the testing plan MD file" }
             },
             required: ["repo", "issueNumber", "planFilePath"]
+        }
+    },
+    {
+        name: "restart_game",
+        description: "Brings down the running RimWorld process and relaunches it with quicktest developer mode (-quicktest) enabled to bypass the main menu and load a test colony immediately.",
+        inputSchema: {
+            type: "object",
+            properties: {
+                quicktest: { type: "boolean", description: "If true, restarts with -quicktest enabled. Defaults to true." }
+            }
+        }
+    },
+    {
+        name: "configure_active_mods",
+        description: "Configures active mods and DLCs in RimWorld's ModsConfig.xml. Resolves file path dynamically.",
+        inputSchema: {
+            type: "object",
+            properties: {
+                activeMods: {
+                    type: "array",
+                    items: { type: "string" },
+                    description: "List of mod IDs to set as active. Overwrites current list."
+                },
+                enableDlc: {
+                    type: "array",
+                    items: { type: "string" },
+                    description: "List of DLC names to enable (royalty, ideology, biotech, anomaly, odyssey)."
+                },
+                disableDlc: {
+                    type: "array",
+                    items: { type: "string" },
+                    description: "List of DLC names to disable."
+                }
+            }
         }
     }
 ];
@@ -149,6 +185,109 @@ async function handleTestingTool(name, args, octokit, org, token, defaultProject
             content: [{
                     type: "text",
                     text: `Comment added to issue #${args.issueNumber} (${commentRes.data.html_url}). ${projectUpdateStatus}.`
+                }]
+        };
+    }
+    if (name === "restart_game") {
+        const quicktest = args.quicktest !== false;
+        // 1. Try to kill the RimWorld process
+        let killMsg = "RimWorld process not running or failed to kill.";
+        try {
+            (0, child_process_1.execSync)('taskkill /f /im RimWorldWin64.exe', { stdio: 'ignore' });
+            killMsg = "RimWorld process killed successfully.";
+        }
+        catch (e) {
+            // Process might not be running
+        }
+        // 2. Resolve RimWorld executable path from GamePath.props
+        let rimworldPath = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld";
+        const propsPath = "d:\\github\\rimsynapse\\Core\\Source\\GamePath.props";
+        if (fs.existsSync(propsPath)) {
+            const content = fs.readFileSync(propsPath, "utf-8");
+            const match = content.match(/<RimWorldPath>(.*?)<\/RimWorldPath>/);
+            if (match) {
+                rimworldPath = match[1].trim();
+            }
+        }
+        const rimworldExe = path.join(rimworldPath, "RimWorldWin64.exe");
+        if (!fs.existsSync(rimworldExe)) {
+            throw new Error(`RimWorld executable not found at: ${rimworldExe}`);
+        }
+        // 3. Spawn the game process detached
+        const gameArgs = quicktest ? ["-quicktest"] : [];
+        const child = (0, child_process_1.spawn)(rimworldExe, gameArgs, {
+            detached: true,
+            stdio: 'ignore'
+        });
+        child.unref();
+        return {
+            content: [{
+                    type: "text",
+                    text: `${killMsg} Relaunched RimWorld at ${rimworldExe} with args: ${JSON.stringify(gameArgs)}.`
+                }]
+        };
+    }
+    if (name === "configure_active_mods") {
+        const configPath = "C:\\Users\\sealt\\AppData\\LocalLow\\Ludeon Studios\\RimWorld by Ludeon Studios\\Config\\ModsConfig.xml";
+        if (!fs.existsSync(configPath)) {
+            throw new Error(`ModsConfig.xml not found at: ${configPath}`);
+        }
+        let content = fs.readFileSync(configPath, "utf8");
+        // Map of DLC keywords to their mod IDs
+        const dlcMap = {
+            royalty: "ludeon.rimworld.royalty",
+            ideology: "ludeon.rimworld.ideology",
+            biotech: "ludeon.rimworld.biotech",
+            anomaly: "ludeon.rimworld.anomaly",
+            odyssey: "ludeon.rimworld.odyssey"
+        };
+        // Extract current active mods list
+        let activeList = [];
+        const match = content.match(/<activeMods>([\s\S]*?)<\/activeMods>/);
+        if (match) {
+            const listMatches = match[1].matchAll(/<li>(.*?)<\/li>/g);
+            for (const lm of listMatches) {
+                activeList.push(lm[1].trim());
+            }
+        }
+        if (args.activeMods && Array.isArray(args.activeMods)) {
+            activeList = args.activeMods;
+        }
+        else {
+            // Apply enableDlc
+            if (args.enableDlc && Array.isArray(args.enableDlc)) {
+                for (const d of args.enableDlc) {
+                    const key = d.toLowerCase();
+                    if (dlcMap[key] && !activeList.includes(dlcMap[key])) {
+                        activeList.push(dlcMap[key]);
+                    }
+                }
+            }
+            // Apply disableDlc
+            if (args.disableDlc && Array.isArray(args.disableDlc)) {
+                for (const d of args.disableDlc) {
+                    const key = d.toLowerCase();
+                    if (dlcMap[key]) {
+                        activeList = activeList.filter(m => m !== dlcMap[key]);
+                    }
+                }
+            }
+        }
+        // Standardize list (keep duplicates out)
+        activeList = Array.from(new Set(activeList.map(m => m.trim())));
+        // Format activeMods XML block
+        const newActiveXml = `<activeMods>\n` + activeList.map(m => `        <li>${m}</li>`).join("\n") + `\n    </activeMods>`;
+        if (content.includes("<activeMods>")) {
+            content = content.replace(/<activeMods>[\s\S]*?<\/activeMods>/, newActiveXml);
+        }
+        else {
+            content = content.replace("<ModsConfigData>", `<ModsConfigData>\n    ${newActiveXml}`);
+        }
+        fs.writeFileSync(configPath, content, "utf8");
+        return {
+            content: [{
+                    type: "text",
+                    text: `Successfully configured ModsConfig.xml. Active mods: ${JSON.stringify(activeList)}.`
                 }]
         };
     }
