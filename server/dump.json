@@ -1,0 +1,482 @@
+[
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzExyg",
+    "content": {
+      "title": "Feature: Embed RAG context for Local LLMs",
+      "url": "https://github.com/RimSynapse/Local-AI-Wrapper/issues/1",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzE7Bg",
+    "content": {
+      "title": "[Roadmap Idea] In-Memory Universe Actions",
+      "url": "https://github.com/RimSynapse/Conversations/issues/4",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzE7CI",
+    "content": {
+      "title": "[Roadmap Idea] Royalty DLC Integration",
+      "url": "https://github.com/RimSynapse/Conversations/issues/5",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzE7Cg",
+    "content": {
+      "title": "[Roadmap Idea] Ideology DLC Integration",
+      "url": "https://github.com/RimSynapse/Conversations/issues/6",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzE7C8",
+    "content": {
+      "title": "[Roadmap Idea] Biotech DLC Integration",
+      "url": "https://github.com/RimSynapse/Conversations/issues/7",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzE7DI",
+    "content": {
+      "title": "[Roadmap Idea] Anomaly DLC Integration",
+      "url": "https://github.com/RimSynapse/Conversations/issues/8",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzE7Do",
+    "content": {
+      "title": "[Roadmap Idea] Odyssey (Save Our Ship 2) Integration",
+      "url": "https://github.com/RimSynapse/Conversations/issues/9",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzE7EM",
+    "content": {
+      "title": "[Roadmap Idea] Chat History and Interests Tools",
+      "url": "https://github.com/RimSynapse/Conversations/issues/10",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzE7Eo",
+    "content": {
+      "title": "[Test Plan] RimSynapse-Core",
+      "url": "https://github.com/RimSynapse/Core/issues/4",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGfHA",
+    "content": {
+      "title": "[Test Plan] RimSynapse-Psychology",
+      "url": "https://github.com/RimSynapse/Psychology/issues/16",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGfHs",
+    "content": {
+      "title": "[Roadmap Idea] Therapy Session Auto-Modes (Requires RimSynapse-Conversations)",
+      "url": "https://github.com/RimSynapse/Psychology/issues/17",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGfIU",
+    "content": {
+      "title": "[Roadmap Idea] PTSD Counseling and Desensitization Therapy",
+      "url": "https://github.com/RimSynapse/Psychology/issues/18",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGfJE",
+    "content": {
+      "title": "[Roadmap Idea] High-Trust Insult Shield",
+      "url": "https://github.com/RimSynapse/Psychology/issues/19",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGfKI",
+    "content": {
+      "title": "[Roadmap Idea] Colony Cliques and The Rumor Mill",
+      "url": "https://github.com/RimSynapse/Psychology/issues/20",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGfKw",
+    "content": {
+      "title": "[Roadmap Idea] Faction Leader Context Injection Hooks",
+      "url": "https://github.com/RimSynapse/Psychology/issues/21",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGfLA",
+    "content": {
+      "title": "[Roadmap Idea] Backstory Arrival Memory Contract",
+      "url": "https://github.com/RimSynapse/Psychology/issues/22",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGfLQ",
+    "content": {
+      "title": "[Roadmap Idea] Familiarity Milestone Events",
+      "url": "https://github.com/RimSynapse/Psychology/issues/23",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGfLk",
+    "content": {
+      "title": "[Roadmap Idea] Social Network Visualization",
+      "url": "https://github.com/RimSynapse/Psychology/issues/24",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGfLs",
+    "content": {
+      "title": "[Roadmap Idea] Dynamic Trait History Timeline",
+      "url": "https://github.com/RimSynapse/Psychology/issues/25",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGlLs",
+    "content": {
+      "title": "[Test Plan] RimSynapse-Chat",
+      "url": "https://github.com/RimSynapse/Conversations/issues/11",
+      "state": "CLOSED"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGlL8",
+    "content": {
+      "title": "[Roadmap Idea] In-Memory Universe Actions",
+      "url": "https://github.com/RimSynapse/Conversations/issues/12",
+      "state": "CLOSED"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGlMM",
+    "content": {
+      "title": "[Roadmap Idea] Royalty DLC Integration",
+      "url": "https://github.com/RimSynapse/Conversations/issues/13",
+      "state": "CLOSED"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGlMg",
+    "content": {
+      "title": "[Roadmap Idea] Ideology DLC Integration",
+      "url": "https://github.com/RimSynapse/Conversations/issues/14",
+      "state": "CLOSED"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGlMw",
+    "content": {
+      "title": "[Roadmap Idea] Biotech DLC Integration",
+      "url": "https://github.com/RimSynapse/Conversations/issues/15",
+      "state": "CLOSED"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGlNI",
+    "content": {
+      "title": "[Roadmap Idea] Anomaly DLC Integration",
+      "url": "https://github.com/RimSynapse/Conversations/issues/16",
+      "state": "CLOSED"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGlNM",
+    "content": {
+      "title": "[Roadmap Idea] Odyssey (Save Our Ship 2) Integration",
+      "url": "https://github.com/RimSynapse/Conversations/issues/17",
+      "state": "CLOSED"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGlNo",
+    "content": {
+      "title": "[Roadmap Idea] Chat History and Interests Tools",
+      "url": "https://github.com/RimSynapse/Conversations/issues/18",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGlN4",
+    "content": {
+      "title": "[Test Plan] RimSynapse-Core",
+      "url": "https://github.com/RimSynapse/Core/issues/5",
+      "state": "CLOSED"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpr8",
+    "content": {
+      "title": "[Roadmap Idea] **Rimchat Feature:** AI-Driven Raids & Peace Treaties",
+      "url": "https://github.com/RimSynapse/Factions/issues/1",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpsQ",
+    "content": {
+      "title": "[Roadmap Idea] **Rimchat Feature:** Airdrop & Caravan Trading",
+      "url": "https://github.com/RimSynapse/Factions/issues/2",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpso",
+    "content": {
+      "title": "[Roadmap Idea] **Rimchat Feature:** Dynamic Quest Generation",
+      "url": "https://github.com/RimSynapse/Factions/issues/3",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGps0",
+    "content": {
+      "title": "[Roadmap Idea] **Rimchat Feature:** Comms Console & Radio Broadcasts",
+      "url": "https://github.com/RimSynapse/Factions/issues/4",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpto",
+    "content": {
+      "title": "[Roadmap Idea] Royal Splinter Houses & Vassalage (Royalty)",
+      "url": "https://github.com/RimSynapse/Factions/issues/5",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpuE",
+    "content": {
+      "title": "[Roadmap Idea] Holy Wars & Schisms (Ideology)",
+      "url": "https://github.com/RimSynapse/Factions/issues/6",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpuc",
+    "content": {
+      "title": "[Roadmap Idea] Xenotype Warmongers & Enclaves (Biotech)",
+      "url": "https://github.com/RimSynapse/Factions/issues/7",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpvI",
+    "content": {
+      "title": "[Roadmap Idea] Void Cult Factions (Anomaly)",
+      "url": "https://github.com/RimSynapse/Factions/issues/8",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpvk",
+    "content": {
+      "title": "[Roadmap Idea] Starfaring Fleets & Lost Empires (Odyssey)",
+      "url": "https://github.com/RimSynapse/Factions/issues/9",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpv8",
+    "content": {
+      "title": "[Roadmap Idea] LLM-Driven World Generation & Landing Sequences",
+      "url": "https://github.com/RimSynapse/Factions/issues/10",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpwQ",
+    "content": {
+      "title": "[Roadmap Idea] MCP Tool: get_motivated_factions",
+      "url": "https://github.com/RimSynapse/Factions/issues/11",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpws",
+    "content": {
+      "title": "[Roadmap Idea] MCP Tool: get_faction_relations_history",
+      "url": "https://github.com/RimSynapse/Factions/issues/12",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpxI",
+    "content": {
+      "title": "[Roadmap Idea] MCP Shift: Scrap Hardcoded Motivation Loops",
+      "url": "https://github.com/RimSynapse/Factions/issues/13",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpxk",
+    "content": {
+      "title": "[Roadmap Idea] MCP Shift: Expose Factions Tools",
+      "url": "https://github.com/RimSynapse/Factions/issues/14",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpx4",
+    "content": {
+      "title": "[Roadmap Idea] MCP Tool: get_available_models",
+      "url": "https://github.com/RimSynapse/Local-AI-Wrapper/issues/3",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpyk",
+    "content": {
+      "title": "[Roadmap Idea] MCP Tool: load_active_model",
+      "url": "https://github.com/RimSynapse/Local-AI-Wrapper/issues/4",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpy4",
+    "content": {
+      "title": "[Roadmap Idea] MCP Tool: get_service_status",
+      "url": "https://github.com/RimSynapse/Local-AI-Wrapper/issues/5",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpzU",
+    "content": {
+      "title": "[Roadmap Idea] MCP Shift: Agentic Model Swapping",
+      "url": "https://github.com/RimSynapse/Local-AI-Wrapper/issues/6",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGpzo",
+    "content": {
+      "title": "[Roadmap Idea] MCP Shift: Task-Specific Swapping",
+      "url": "https://github.com/RimSynapse/Local-AI-Wrapper/issues/7",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGp0E",
+    "content": {
+      "title": "[Roadmap Idea] MCP Tool: get_gpu_hardware_status",
+      "url": "https://github.com/RimSynapse/NVIDIA-Tool/issues/3",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGp0c",
+    "content": {
+      "title": "[Roadmap Idea] MCP Tool: optimize_model_allocation",
+      "url": "https://github.com/RimSynapse/NVIDIA-Tool/issues/4",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGp1I",
+    "content": {
+      "title": "[Roadmap Idea] MCP Shift: Dynamic Configuration Tuning",
+      "url": "https://github.com/RimSynapse/NVIDIA-Tool/issues/5",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGp1s",
+    "content": {
+      "title": "[Roadmap Idea] MCP Tool: get_planetary_news_feed",
+      "url": "https://github.com/RimSynapse/WorldNews/issues/1",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGp2A",
+    "content": {
+      "title": "[Roadmap Idea] MCP Tool: get_local_settlements_status",
+      "url": "https://github.com/RimSynapse/WorldNews/issues/2",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGp2o",
+    "content": {
+      "title": "[Roadmap Idea] MCP Shift: Dynamic Lore Integration",
+      "url": "https://github.com/RimSynapse/WorldNews/issues/3",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGp20",
+    "content": {
+      "title": "[Roadmap Idea] MCP Shift: Lore Context",
+      "url": "https://github.com/RimSynapse/WorldNews/issues/4",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGp3c",
+    "content": {
+      "title": "[Roadmap Idea] MCP Shift: Remove C# Aspect Checking Rules",
+      "url": "https://github.com/RimSynapse/AuraAlgorithm/issues/1",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGp3w",
+    "content": {
+      "title": "[Roadmap Idea] MCP Shift: Prompt-Driven Tool Direction",
+      "url": "https://github.com/RimSynapse/AuraAlgorithm/issues/2",
+      "state": "OPEN"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGp4U",
+    "content": {
+      "title": "[Roadmap Idea] MCP Tool: query_wiki_database",
+      "url": "https://github.com/RimSynapse/Repo-MCP/issues/1",
+      "state": "CLOSED"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGp4w",
+    "content": {
+      "title": "[Roadmap Idea] MCP Shift: Mod Lore Access",
+      "url": "https://github.com/RimSynapse/Repo-MCP/issues/2",
+      "state": "CLOSED"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzGp5M",
+    "content": {
+      "title": "[Roadmap Idea] MCP Shift: Intelligent Referencing",
+      "url": "https://github.com/RimSynapse/Repo-MCP/issues/3",
+      "state": "CLOSED"
+    }
+  },
+  {
+    "id": "PVTI_lADOEfI01s4BdlhxzgzHOHw",
+    "content": {
+      "title": "[Roadmap Idea] Plan Iteration 2",
+      "url": "https://github.com/RimSynapse/Core/issues/6",
+      "state": "OPEN"
+    }
+  }
+]

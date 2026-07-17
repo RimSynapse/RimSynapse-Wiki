@@ -46,6 +46,7 @@ const projects_1 = require("./tools/projects");
 const codebase_1 = require("./tools/codebase");
 const testing_1 = require("./tools/testing");
 const sync_1 = require("./tools/sync");
+const wiki_1 = require("./tools/wiki");
 const config_1 = require("./config");
 // 1. Setup Config & Auth
 const config = (0, config_1.loadConfig)();
@@ -65,7 +66,8 @@ const ALL_TOOLS = [
     ...projects_1.projectTools,
     ...codebase_1.codebaseTools,
     ...testing_1.testingTools,
-    ...sync_1.syncTools
+    ...sync_1.syncTools,
+    ...wiki_1.wikiTools
 ];
 // 3. Register Tools
 server.setRequestHandler(types_js_1.ListToolsRequestSchema, async () => {
@@ -87,6 +89,9 @@ server.setRequestHandler(types_js_1.CallToolRequestSchema, async (request) => {
     }
     if (sync_1.syncTools.some(t => t.name === name)) {
         return await (0, sync_1.handleSyncTool)(name, args, config.organization, token);
+    }
+    if (wiki_1.wikiTools.some(t => t.name === name)) {
+        return await (0, wiki_1.handleWikiTool)(name, args);
     }
     throw new Error(`Unknown tool: ${name}`);
 });

@@ -21,7 +21,13 @@ async function run() {
     const org = config.organization;
 
     const modules = [
-        { name: "RimSynapse-Psychology", dir: "Psychology" }
+        { name: "RimSynapse-Chat", dir: "Conversations" },
+        { name: "RimSynapse-Core", dir: "Core" },
+        { name: "RimSynapse-Factions", dir: "Factions" },
+        { name: "Local-AI-Wrapper", dir: "Local-AI-Wrapper" },
+        { name: "RimSynapse-NVIDIA-Tool", dir: "NVIDIA-Tool" },
+        { name: "RimSynapse-WorldNews", dir: "WorldNews" },
+        { name: "AuraAlgorithm", dir: "AuraAlgorithm" }
     ];
 
     const workspaceRoot = path.join(__dirname, "..", "..", "..");

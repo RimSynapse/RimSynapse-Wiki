@@ -14,6 +14,7 @@ import { projectTools, handleProjectTool } from "./tools/projects";
 import { codebaseTools, handleCodebaseTool } from "./tools/codebase";
 import { testingTools, handleTestingTool } from "./tools/testing";
 import { syncTools, handleSyncTool } from "./tools/sync";
+import { wikiTools, handleWikiTool } from "./tools/wiki";
 import { loadConfig, getGitHubToken } from "./config";
 
 // 1. Setup Config & Auth
@@ -36,7 +37,8 @@ const ALL_TOOLS = [
     ...projectTools,
     ...codebaseTools,
     ...testingTools,
-    ...syncTools
+    ...syncTools,
+    ...wikiTools
 ];
 
 // 3. Register Tools
@@ -65,6 +67,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     
     if (syncTools.some(t => t.name === name)) {
         return await handleSyncTool(name, args, config.organization, token);
+    }
+    
+    if (wikiTools.some(t => t.name === name)) {
+        return await handleWikiTool(name, args);
     }
     
     throw new Error(`Unknown tool: ${name}`);
