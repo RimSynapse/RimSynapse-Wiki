@@ -45,27 +45,30 @@ async function run() {
         const token = (0, config_1.getGitHubToken)();
         const octokit = new rest_1.Octokit({ auth: token });
         console.log("--- STARTING WORKFLOW ---");
-        console.log("1. Executing 'create_issue' tool...");
+        console.log("1. Executing 'create_issue' tool with labels...");
         const issueRes = await (0, issues_1.handleIssueTool)("create_issue", {
             repo: "Local-AI-Wrapper",
             title: "Feature: Embed RAG context for Local LLMs",
-            body: "Embed a Retrieval-Augmented Generation (RAG) system directly into the mod. This will allow users to pass the RAG context to their local LLM, enabling the LLM to access relevant game/mod data easily."
+            body: "Embed a Retrieval-Augmented Generation (RAG) system directly into the mod. This will allow users to pass the RAG context to their local LLM, enabling the LLM to access relevant game/mod data easily.",
+            labels: ["feature", "good first issue"]
         }, octokit, config.organization);
         console.log(issueRes.content[0].text);
         const nodeIdMatch = issueRes.content[0].text.match(/\(ID: (.*?)\)/);
         const nodeId = nodeIdMatch ? nodeIdMatch[1] : null;
+        const urlMatch = issueRes.content[0].text.match(/issues\/(\d+)/);
+        const issueNumber = urlMatch ? parseInt(urlMatch[1], 10) : null;
         if (nodeId) {
             console.log("\n2. Executing 'add_project_item' tool...");
             const projRes = await (0, projects_1.handleProjectTool)("add_project_item", { contentId: nodeId }, token, config.defaultProjectId);
             console.log(projRes.content[0].text);
         }
-        console.log("\n3. Executing 'create_testing_plan_issues' tool...");
+        console.log("\n3. Executing 'create_testing_plan_issues' tool (commenting and status update)...");
         fs.writeFileSync("temp_test_plan.md", "### Objective\nTest the new RAG embedding feature.\n\n### Checklist\n- [ ] Verify vector embeddings are correctly generated for RimWorld Defs.\n- [ ] Ensure RAG pipeline retrieves relevant nodes based on user queries.\n- [ ] Test context window limits when passing RAG chunks to the Local LLM wrapper.\n- [ ] Validate performance (no stuttering during retrieval).");
         const testRes = await (0, testing_1.handleTestingTool)("create_testing_plan_issues", {
             repo: "Local-AI-Wrapper",
             planFilePath: "temp_test_plan.md",
-            featureName: "RAG Embedding"
-        }, octokit, config.organization);
+            issueNumber: issueNumber
+        }, octokit, config.organization, token, config.defaultProjectId);
         console.log(testRes.content[0].text);
         fs.unlinkSync("temp_test_plan.md");
         console.log("\n--- WORKFLOW COMPLETE ---");

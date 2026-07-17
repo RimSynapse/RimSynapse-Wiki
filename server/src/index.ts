@@ -62,7 +62,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     }
     
     if (testingTools.some(t => t.name === name)) {
-        return await handleTestingTool(name, args, octokit, config.organization);
+        return await handleTestingTool(name, args, octokit, config.organization, token, config.defaultProjectId);
     }
     
     if (syncTools.some(t => t.name === name)) {

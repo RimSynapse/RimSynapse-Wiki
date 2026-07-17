@@ -85,7 +85,7 @@ server.setRequestHandler(types_js_1.CallToolRequestSchema, async (request) => {
         return await (0, codebase_1.handleCodebaseTool)(name, args, octokit, config.organization);
     }
     if (testing_1.testingTools.some(t => t.name === name)) {
-        return await (0, testing_1.handleTestingTool)(name, args, octokit, config.organization);
+        return await (0, testing_1.handleTestingTool)(name, args, octokit, config.organization, token, config.defaultProjectId);
     }
     if (sync_1.syncTools.some(t => t.name === name)) {
         return await (0, sync_1.handleSyncTool)(name, args, config.organization, token);

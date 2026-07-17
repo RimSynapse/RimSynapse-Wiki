@@ -117,6 +117,8 @@ async function handleProjectTool(name, args, token, defaultProjectId) {
             optionId = "f75ad846";
         else if (requestedStatus.includes("progress"))
             optionId = "47fc9ee4";
+        else if (requestedStatus.includes("testing") || requestedStatus.includes("test"))
+            optionId = "ddca9270";
         else if (requestedStatus.includes("done") || requestedStatus.includes("completed"))
             optionId = "98236657";
         else if (requestedStatus.includes("plan"))

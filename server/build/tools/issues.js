@@ -11,7 +11,12 @@ exports.issueTools = [
             properties: {
                 repo: { type: "string" },
                 title: { type: "string" },
-                body: { type: "string" }
+                body: { type: "string" },
+                labels: {
+                    type: "array",
+                    items: { type: "string" },
+                    description: "Optional list of labels to apply to the issue"
+                }
             },
             required: ["repo", "title"]
         }
@@ -34,7 +39,8 @@ async function handleIssueTool(name, args, octokit, org) {
             owner: org,
             repo: args.repo,
             title: args.title,
-            body: args.body
+            body: args.body,
+            labels: args.labels
         });
         return { content: [{ type: "text", text: `Issue created: ${data.html_url} (ID: ${data.node_id})` }] };
     }

@@ -119,6 +119,7 @@ export async function handleProjectTool(name: string, args: any, token: string, 
         
         if (requestedStatus.includes("todo") || requestedStatus.includes("backlog")) optionId = "f75ad846";
         else if (requestedStatus.includes("progress")) optionId = "47fc9ee4";
+        else if (requestedStatus.includes("testing") || requestedStatus.includes("test")) optionId = "ddca9270";
         else if (requestedStatus.includes("done") || requestedStatus.includes("completed")) optionId = "98236657";
         else if (requestedStatus.includes("plan")) optionId = "ce548ea0";
         else throw new Error(`Unknown status: ${args.status}`);
