@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.pcControlTools = void 0;
 exports.handlePcControlTool = handlePcControlTool;
+const child_process_1 = require("child_process");
 const types_1 = require("./pc/types");
 const mouse_1 = require("./pc/mouse");
 const keyboard_1 = require("./pc/keyboard");
@@ -13,6 +14,16 @@ const formatValues = Object.values(types_1.CaptureFormat);
 const mouseButtonValues = Object.values(types_1.MouseButton);
 const scrollDirectionValues = Object.values(types_1.ScrollDirection);
 exports.pcControlTools = [
+    {
+        name: "launch_quicktest",
+        description: "Launches RimWorld directly with the -quicktest argument to generate a test map instantly.",
+        inputSchema: {
+            type: "object",
+            properties: {
+                killExisting: { type: "boolean", description: "Whether to force close any already running instances of RimWorld first (default: true)" }
+            }
+        }
+    },
     {
         name: "capture_screen",
         description: "Capture the entire screen as an image",
@@ -430,6 +441,24 @@ async function handlePcControlTool(name, args) {
             case "invoke_ui_element_action": {
                 const resultMessage = await uiAutomation_1.invokeUiElementActionTool.execute(args);
                 return { content: [{ type: "text", text: resultMessage }] };
+            }
+            case "launch_quicktest": {
+                const killExisting = args.killExisting !== false;
+                if (killExisting) {
+                    try {
+                        (0, child_process_1.execSync)("taskkill /f /im RimWorldWin64.exe", { stdio: "ignore" });
+                    }
+                    catch (e) {
+                        // Ignore if process not found
+                    }
+                }
+                const rimworldPath = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\RimWorldWin64.exe";
+                const child = (0, child_process_1.spawn)(rimworldPath, ["-quicktest"], {
+                    detached: true,
+                    stdio: "ignore"
+                });
+                child.unref();
+                return { content: [{ type: "text", text: "RimWorld quicktest launched successfully." }] };
             }
             default:
                 throw new Error(`Unknown PC Control tool: ${name}`);

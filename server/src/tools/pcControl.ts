@@ -1,3 +1,4 @@
+import { spawn, execSync } from "child_process";
 import { Key, CaptureFormat, MouseButton, ScrollDirection, Point, Region } from "./pc/types";
 import { moveMouse, getMousePosition, clickMouse, clickMouseAt, doubleClick, doubleClickAt, scrollMouse, dragMouse, dragMouseFromTo } from "./pc/mouse";
 import { typeText, typeTextWithDelay, pressKey, pressKeyShortcut, holdKey, releaseKey } from "./pc/keyboard";
@@ -11,6 +12,16 @@ const mouseButtonValues = Object.values(MouseButton);
 const scrollDirectionValues = Object.values(ScrollDirection);
 
 export const pcControlTools = [
+  {
+    name: "launch_quicktest",
+    description: "Launches RimWorld directly with the -quicktest argument to generate a test map instantly.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        killExisting: { type: "boolean", description: "Whether to force close any already running instances of RimWorld first (default: true)" }
+      }
+    }
+  },
   {
     name: "capture_screen",
     description: "Capture the entire screen as an image",
@@ -428,6 +439,25 @@ export async function handlePcControlTool(name: string, args: any) {
       case "invoke_ui_element_action": {
         const resultMessage = await invokeUiElementActionTool.execute(args as InvokeUiElementActionInput);
         return { content: [{ type: "text", text: resultMessage }] };
+      }
+      case "launch_quicktest": {
+        const killExisting = args.killExisting !== false;
+        if (killExisting) {
+          try {
+            execSync("taskkill /f /im RimWorldWin64.exe", { stdio: "ignore" });
+          } catch (e) {
+            // Ignore if process not found
+          }
+        }
+        
+        const rimworldPath = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\RimWorldWin64.exe";
+        const child = spawn(rimworldPath, ["-quicktest"], {
+          detached: true,
+          stdio: "ignore"
+        });
+        child.unref();
+        
+        return { content: [{ type: "text", text: "RimWorld quicktest launched successfully." }] };
       }
       default:
         throw new Error(`Unknown PC Control tool: ${name}`);
