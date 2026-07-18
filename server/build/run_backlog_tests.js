@@ -58,6 +58,7 @@ async function runTests() {
                 "rimsynapse.nvidiatool",
                 "rimsynapse.psychology",
                 "rimsynapse.conversations",
+                "rimsynapse.regionsandterritories",
                 "rimsynapse.factions"
             ]
         },
@@ -72,6 +73,7 @@ async function runTests() {
                 "rimsynapse.nvidiatool",
                 "rimsynapse.psychology",
                 "rimsynapse.conversations",
+                "rimsynapse.regionsandterritories",
                 "rimsynapse.factions"
             ]
         },
@@ -86,6 +88,7 @@ async function runTests() {
                 "rimsynapse.nvidiatool",
                 "rimsynapse.psychology",
                 "rimsynapse.conversations",
+                "rimsynapse.regionsandterritories",
                 "rimsynapse.factions"
             ]
         },
@@ -100,6 +103,7 @@ async function runTests() {
                 "rimsynapse.nvidiatool",
                 "rimsynapse.psychology",
                 "rimsynapse.conversations",
+                "rimsynapse.regionsandterritories",
                 "rimsynapse.factions"
             ]
         },
@@ -114,6 +118,7 @@ async function runTests() {
                 "rimsynapse.nvidiatool",
                 "rimsynapse.psychology",
                 "rimsynapse.conversations",
+                "rimsynapse.regionsandterritories",
                 "rimsynapse.factions"
             ]
         }
