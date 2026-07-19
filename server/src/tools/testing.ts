@@ -3,6 +3,7 @@ import * as fs from "fs";
 import { graphql } from "@octokit/graphql";
 import * as path from "path";
 import { execSync, spawn } from "child_process";
+import { loadConfig } from "../config";
 
 export const testingTools = [
     {
@@ -39,6 +40,16 @@ export const testingTools = [
                     items: { type: "string" },
                     description: "List of mod IDs to set as active. Overwrites current list."
                 },
+                addMods: {
+                    type: "array",
+                    items: { type: "string" },
+                    description: "List of mod IDs to add to the active list without overwriting the rest."
+                },
+                removeMods: {
+                    type: "array",
+                    items: { type: "string" },
+                    description: "List of mod IDs to remove from the active list."
+                },
                 enableDlc: {
                     type: "array",
                     items: { type: "string" },
@@ -48,6 +59,10 @@ export const testingTools = [
                     type: "array",
                     items: { type: "string" },
                     description: "List of DLC names to disable."
+                },
+                savedatafolder: {
+                    type: "string",
+                    description: "Optional custom path for -savedatafolder. Overrides the configured path."
                 }
             }
         }
@@ -176,52 +191,104 @@ export async function handleTestingTool(
 
     if (name === "restart_game") {
         const quicktest = args.quicktest !== false;
-        
-        // 1. Try to kill the RimWorld process
-        let killMsg = "RimWorld process not running or failed to kill.";
-        try {
-            execSync('taskkill /f /im RimWorldWin64.exe', { stdio: 'ignore' });
-            killMsg = "RimWorld process killed successfully.";
-        } catch (e) {
-            // Process might not be running
-        }
+        const config = loadConfig();
+        const savedata = args.savedatafolder || config.savedatafolder || "D:\\RimWorldDevData";
+        const pidFilePath = path.join(__dirname, "..", "..", "dev_instance_pid.txt");
 
-        // 2. Resolve RimWorld executable path from GamePath.props
-        let rimworldPath = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld";
-        const propsPath = "d:\\github\\rimsynapse\\Core\\Source\\GamePath.props";
-        if (fs.existsSync(propsPath)) {
-            const content = fs.readFileSync(propsPath, "utf-8");
-            const match = content.match(/<RimWorldPath>(.*?)<\/RimWorldPath>/);
-            if (match) {
-                rimworldPath = match[1].trim();
+        // 1. Safe Kill: terminate only tracked dev PID or processes running with custom savedatafolder
+        let killMsg = "No active dev instance found to close.";
+        if (fs.existsSync(pidFilePath)) {
+            try {
+                const oldPid = fs.readFileSync(pidFilePath, "utf8").trim();
+                execSync(`taskkill /f /pid ${oldPid}`, { stdio: "ignore" });
+                fs.unlinkSync(pidFilePath);
+                killMsg = `Tracked dev instance PID ${oldPid} killed.`;
+            } catch (e) {}
+        }
+        try {
+            execSync(`powershell -Command "Get-CimInstance Win32_Process -Filter \\"Name = 'RimWorldWin64.exe'\\" | Where-Object { $_.CommandLine -like '*savedatafolder*' } | Foreach-Object { Stop-Process -Id $_.ProcessId -Force }"`, { stdio: "ignore" });
+            killMsg = "Developer RimWorld instances closed safely.";
+        } catch (e) {}
+
+        // 2. Resolve RimWorld executable path
+        let rimworldPath = config.rimworldPath;
+        if (!rimworldPath) {
+            const propsPath = "d:\\github\\rimsynapse\\Core\\Source\\GamePath.props";
+            if (fs.existsSync(propsPath)) {
+                const content = fs.readFileSync(propsPath, "utf-8");
+                const match = content.match(/<RimWorldPath>(.*?)<\/RimWorldPath>/);
+                if (match) {
+                    rimworldPath = path.join(match[1].trim(), "RimWorldWin64.exe");
+                }
             }
         }
-        
-        const rimworldExe = path.join(rimworldPath, "RimWorldWin64.exe");
-        if (!fs.existsSync(rimworldExe)) {
-            throw new Error(`RimWorld executable not found at: ${rimworldExe}`);
+        if (!rimworldPath) {
+            rimworldPath = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\RimWorldWin64.exe";
         }
 
-        // 3. Spawn the game process via cmd.exe start
-        const argsStr = quicktest ? "-quicktest" : "";
+        if (!fs.existsSync(rimworldPath)) {
+            throw new Error(`RimWorld executable not found at: ${rimworldPath}`);
+        }
+
+        // 3. Prevent Steam Relaunch (Write steam_appid.txt in game directory if missing)
+        const gameDir = path.dirname(rimworldPath);
+        const appidPath = path.join(gameDir, "steam_appid.txt");
+        if (!fs.existsSync(appidPath)) {
+            try {
+                fs.writeFileSync(appidPath, "294100", "utf8");
+            } catch (e) {}
+        }
+
+        // 4. Launch RimWorld directly in the background (detached and steam bypass)
+        const gameArgs = [
+            `-savedatafolder=${savedata}`,
+            "-developer",
+            "-nosound"
+        ];
+        if (quicktest) {
+            gameArgs.push("-quicktest");
+        }
+
         try {
-            execSync(`cmd.exe /c start "" "${rimworldExe}" ${argsStr}`, { stdio: 'ignore' });
+            const child = spawn(rimworldPath, gameArgs, {
+                detached: true,
+                stdio: "ignore",
+                env: {
+                    ...process.env,
+                    SteamAppId: "294100",
+                    SteamAppID: "294100"
+                }
+            });
+            child.unref();
+            if (child.pid) {
+                fs.writeFileSync(pidFilePath, child.pid.toString(), "utf8");
+            }
         } catch (err: any) {
-            throw new Error(`Failed to launch RimWorld: ${err.message}`);
+            throw new Error(`Failed to spawn RimWorld executable directly: ${err.message}`);
         }
 
         return {
             content: [{
                 type: "text",
-                text: `${killMsg} Relaunched RimWorld at ${rimworldExe} with args: "${argsStr}".`
+                text: `${killMsg} Spawning isolated dev game at ${rimworldPath} on ${savedata}. (PID: ${fs.existsSync(pidFilePath) ? fs.readFileSync(pidFilePath, "utf8").trim() : "unknown"})`
             }]
         };
     }
 
     if (name === "configure_active_mods") {
-        const configPath = "C:\\Users\\sealt\\AppData\\LocalLow\\Ludeon Studios\\RimWorld by Ludeon Studios\\Config\\ModsConfig.xml";
+        const config = loadConfig();
+        const savedata = args.savedatafolder || config.savedatafolder || "D:\\RimWorldDevData";
+        const configDir = path.join(savedata, "Config");
+        const configPath = path.join(configDir, "ModsConfig.xml");
+
         if (!fs.existsSync(configPath)) {
-            throw new Error(`ModsConfig.xml not found at: ${configPath}`);
+            try {
+                fs.mkdirSync(configDir, { recursive: true });
+                const defaultXml = `<?xml version="1.0" encoding="utf-8"?>\n<ModsConfigData>\n  <version>1.6.4871 rev591</version>\n  <activeMods>\n    <li>brrainz.harmony</li>\n    <li>ludeon.rimworld</li>\n  </activeMods>\n  <knownExpansions>\n    <li>ludeon.rimworld.royalty</li>\n    <li>ludeon.rimworld.ideology</li>\n    <li>ludeon.rimworld.biotech</li>\n    <li>ludeon.rimworld.anomaly</li>\n    <li>ludeon.rimworld.odyssey</li>\n  </knownExpansions>\n</ModsConfigData>`;
+                fs.writeFileSync(configPath, defaultXml, "utf8");
+            } catch (e: any) {
+                throw new Error(`Failed to create default ModsConfig.xml: ${e.message}`);
+            }
         }
 
         let content = fs.readFileSync(configPath, "utf8");
@@ -248,11 +315,26 @@ export async function handleTestingTool(
         if (args.activeMods && Array.isArray(args.activeMods)) {
             activeList = args.activeMods;
         } else {
+            // Apply addMods
+            if (args.addMods && Array.isArray(args.addMods)) {
+                for (const m of args.addMods) {
+                    const cleanM = m.trim().toLowerCase();
+                    if (!activeList.map(item => item.toLowerCase()).includes(cleanM)) {
+                        activeList.push(m.trim());
+                    }
+                }
+            }
+            // Apply removeMods
+            if (args.removeMods && Array.isArray(args.removeMods)) {
+                const removeList = args.removeMods.map((m: string) => m.trim().toLowerCase());
+                activeList = activeList.filter(m => !removeList.includes(m.toLowerCase()));
+            }
+
             // Apply enableDlc
             if (args.enableDlc && Array.isArray(args.enableDlc)) {
                 for (const d of args.enableDlc) {
                     const key = d.toLowerCase();
-                    if (dlcMap[key] && !activeList.includes(dlcMap[key])) {
+                    if (dlcMap[key] && !activeList.map(item => item.toLowerCase()).includes(dlcMap[key])) {
                         activeList.push(dlcMap[key]);
                     }
                 }
@@ -262,7 +344,7 @@ export async function handleTestingTool(
                 for (const d of args.disableDlc) {
                     const key = d.toLowerCase();
                     if (dlcMap[key]) {
-                        activeList = activeList.filter(m => m !== dlcMap[key]);
+                        activeList = activeList.filter(m => m.toLowerCase() !== dlcMap[key]);
                     }
                 }
             }
