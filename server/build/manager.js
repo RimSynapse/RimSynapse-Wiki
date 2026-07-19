@@ -278,8 +278,8 @@ app.post("/api/manager/stop", (req, res) => {
     logMessage("MCP Server force stop sequence completed.");
     res.json({ success: true });
 });
-// Start the Manager on port 4000
-const managerPort = 4000;
+// Start the Manager on port 4001
+const managerPort = 4001;
 app.listen(managerPort, () => {
     console.log("Local MCP Manager running on http://localhost:" + managerPort);
 });

@@ -135,13 +135,20 @@ async function main() {
             }
         }
         const app = (0, express_js_1.createMcpExpressApp)();
+        // Log incoming requests (method and IP)
+        app.use((req, res, next) => {
+            const rawIp = req.ip || req.socket.remoteAddress || "127.0.0.1";
+            const cleanIp = rawIp.replace("::ffff:", "").replace("::1", "127.0.0.1");
+            console.error("received " + req.method.toLowerCase() + " from " + cleanIp);
+            next();
+        });
         const transports = {};
         // Helper to notify manager of activity without using ampersands
         const notifyActivity = () => {
             const payload = JSON.stringify({ timestamp: Date.now() });
             const postReq = http.request({
                 hostname: "localhost",
-                port: 4000,
+                port: 4001,
                 path: "/api/manager/activity",
                 method: "POST",
                 headers: {

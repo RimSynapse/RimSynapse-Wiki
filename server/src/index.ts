@@ -123,6 +123,15 @@ async function main() {
         }
         
         const app = createMcpExpressApp();
+        
+        // Log incoming requests (method and IP)
+        app.use((req: any, res: any, next: any) => {
+            const rawIp = req.ip || req.socket.remoteAddress || "127.0.0.1";
+            const cleanIp = rawIp.replace("::ffff:", "").replace("::1", "127.0.0.1");
+            console.error("received " + req.method.toLowerCase() + " from " + cleanIp);
+            next();
+        });
+
         const transports: Record<string, SSEServerTransport> = {};
         
         // Helper to notify manager of activity without using ampersands
@@ -130,7 +139,7 @@ async function main() {
             const payload = JSON.stringify({ timestamp: Date.now() });
             const postReq = http.request({
                 hostname: "localhost",
-                port: 4000,
+                port: 4001,
                 path: "/api/manager/activity",
                 method: "POST",
                 headers: {
